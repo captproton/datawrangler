@@ -1,0 +1,37 @@
+<h1>Listing people</h1>
+<div id="scrolling_table" style="width:500px;height:800px;overflow:scroll;">
+	
+<table>
+  <tr>
+    <th>Lead Source</th>
+    <th>ResponseType</th>
+    <th>first_name</th>
+    <th>last_name</th>
+    <th>company_name</th>
+    <th>job_title</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @people.each do |person| %>
+  <tr>
+    <td><%= person.lead_source %></td>
+    <td><%= person.response_type %></td>
+    <td><%= person.first_name %></td>
+    <td><%= person.last_name %></td>
+    <td><%= person.job_title %></td>
+    <td><%= person.company_name %></td>
+    <td><%= person.job_title %></td>
+    <td><%= link_to 'Show', person %></td>
+    <td><%= link_to 'Edit', edit_person_path(person) %></td>
+    <td><%= link_to 'Destroy', person, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+  </tr>
+<% end %>
+</table>
+</div>
+
+<br />
+
+<%= link_to 'New Person', new_person_path %>

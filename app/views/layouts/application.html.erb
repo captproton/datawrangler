@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	  <title>Data Wrangler</title>
+	  <%# stylesheet_link_tag    "application", :media => "all" %>
+	  <%= javascript_include_tag "application" %>
+	  <script src="http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js"></script>
+
+	  <%= csrf_meta_tags %>
+  	<!-- YUI module loading -->
+	<script>
+	// Create a new YUI instance and populate it with the required modules.
+	YUI().use('autocomplete', function (Y) {
+	    // AutoComplete is available and ready for use. Add implementation
+	    // code here.
+	});
+	</script>
+	
+	<!-- YUI style -->
+	<link rel="stylesheet" href="http://yui.yahooapis.com/3.5.1/build/cssgrids/cssgrids-min.css">
+    <style>
+		body { margin: auto; width: 960px; }
+		p    { margin: 0px; border: 1px solid #000; }
+	</style>
+	
+</head>
+<body class="yui3-skin-sam">
+	
+	<div class="yui3-g">
+	    <div class="yui3-u-1-4">
+
+			
+			<p>1/4</p>
+			</div>
+	    <div class="yui3-u-1-2">
+			<%= yield %>
+		    </div>
+		    <div class="yui3-u-1-4"><p>1/4</p></div>
+		</div>
+		<div class="yui3-g">
+		    <div class="yui3-u"></div>
+		    <div class="yui3-u-5-6">
+			<!--  -->
+			<div id="footer_sub">
+			<div id="debugging">
+			&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+			<form style="margin: 0px" action="" method="post">
+			<div id="footer_sub_inner">
+			© 2012 Carl Tanner. <a href="/tos/">Terms of use</a> | 
+			<a href="/company/jobs/">Careers</a> | 
+			<a href="https://support.windriver.com/selfservicewebapp/editProfile.action">My Account</a> | 
+			<a href="/company/feedback.html">Feedback</a> | 
+			<a href="/company/site-map.html">Site Map</a> | 
+			<a href="/company/contact/index.html">Contact Us</a>
+
+			</div>
+			</form>
+			</div>
+			<!--  -->
+			</div>
+		    <div class="yui3-u"></div>
+		</div>
+</body>
+</html>
