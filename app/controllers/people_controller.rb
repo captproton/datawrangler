@@ -6,6 +6,7 @@ class PeopleController < ApplicationController
   def index
     @table = ImportTable.find(params[:import_table_id])
     @people = @table.people.order(:last_name)
+
     respond_to do |format|
       format.html
       format.csv { send_data @people.to_csv }
