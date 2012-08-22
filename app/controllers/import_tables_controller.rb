@@ -135,4 +135,5 @@ class ImportTablesController < ApplicationController
       instance.save
     end
     eval "redirect_to import_table_#{merge_table}_path(#{import_table.id})"
+  end
 end
