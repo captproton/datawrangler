@@ -1,8 +1,11 @@
 class PeopleController < ApplicationController
+## This controller should be nested within import_tables
+
   # GET /people
   # GET /people.json
   def index
-    @people = Person.order(:last_name)
+    @table = ImportTable.find(params[:import_table_id])
+    @people = @table.people.order(:last_name)
     respond_to do |format|
       format.html
       format.csv { send_data @people.to_csv }

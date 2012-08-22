@@ -129,8 +129,9 @@ class ImportTablesController < ApplicationController
         contents = row.select { |cell| cell.column_index == column_index }[0].contents
         instance[column_name] = contents
       end
+      instance.import_table_id = import_table.id
       instance.save
     end
-    eval "redirect_to #{merge_table}_path"
+    eval "redirect_to import_table_#{merge_table}_path(#{import_table.id})"
   end
 end
