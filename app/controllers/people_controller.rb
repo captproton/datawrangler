@@ -4,8 +4,16 @@ class PeopleController < ApplicationController
   # GET /people
   # GET /people.json
   def index
-    @table = ImportTable.find(params[:import_table_id])
-    @people = @table.people.order(:last_name)
+    
+    if params[:import_table_id]
+      @table = ImportTable.find(params[:import_table_id])
+      @people = @table.people.order(:last_name)
+      gon.people = @people
+      
+    else
+      @people = Person.where(:disqualified => false).order(:last_name)
+      
+    end
 
     respond_to do |format|
       format.html
