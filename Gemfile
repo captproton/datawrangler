@@ -37,5 +37,10 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'debugger'
 
-# To use gon and combine js with ruby
+# To use gon and combine js with ruby.
+# Creates an array of values generated on the server in Ruby.
 gem "gon", "~> 4.0.0"
+
+# To search models
+gem "ransack", "~> 0.7.0"
+

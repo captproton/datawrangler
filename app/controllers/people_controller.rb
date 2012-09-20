@@ -7,12 +7,15 @@ class PeopleController < ApplicationController
     
     if params[:import_table_id]
       @table = ImportTable.find(params[:import_table_id])
-      @people = @table.people.where(:disqualified => false).order(:last_name)
-      @person = @people.last
-      
-      
+      # @search = @table.people.where(:disqualified => false).order(:last_name)
+      @search = @table.people.search(params[:q])
+      @people = @search.result
+      @search.build_condition
     else
-      @people = Person.where(:disqualified => false).order(:last_name)
+      # @search = Person.where(:disqualified => false).search(params[:q]).order(:last_name)
+      @search = Person.search(params[:q])
+      @people = @search.result
+      @search.build_condition
       
     end
 

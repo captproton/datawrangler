@@ -1,8 +1,41 @@
 <h1>Listing people</h1>
 <div id="scrolling_table" style="width:500px;height:800px;overflow:scroll;">
+	<% if params[:import_table_id] %>
+		<%= search_form_for @search, url: search_import_table_people_path, method: :post do |f| %>
+		  <%= f.condition_fields do |c| %>
+		    <%= render "condition_fields", f: c %>
+		  <% end %>
+		  <p><%= link_to_add_fields "Add Conditions", f, :condition %></p>
+		  <div class="field">
+		    Sort:
+		    <%= f.sort_fields do |s| %>
+		      <%= s.sort_select %>
+		    <% end %>
+		  </div>
+		  <div class="actions"><%= f.submit "Search" %></div>
+		<% end %>
+
+	<% else %>
+	  <%= search_form_for @search, url: search_people_path, method: :post do |f| %>
+	  <%= f.condition_fields do |c| %>
+	    <%= render "condition_fields", f: c %>
+	  <% end %>
+	  <p><%= link_to_add_fields "Add Conditions", f, :condition %></p>
+	  <div class="field">
+	    Sort:
+	    <%= f.sort_fields do |s| %>
+	      <%= s.sort_select %>
+	    <% end %>
+	  </div>
+	  <div class="actions"><%= f.submit "Search" %></div>
+	<% end %>
+	
+	
+	<% end %>	
+	
 	<%= form_tag edit_multiple_people_path do %>
 	
-	<table>
+	<table id="people">
 	  <tr>
 		<th>DQ'ed</th>
 	    <th>Lead Source</th>
