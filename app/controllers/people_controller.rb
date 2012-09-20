@@ -7,8 +7,9 @@ class PeopleController < ApplicationController
     
     if params[:import_table_id]
       @table = ImportTable.find(params[:import_table_id])
-      @people = @table.people.order(:last_name)
-      gon.people = @people
+      @people = @table.people.where(:disqualified => false).order(:last_name)
+      @person = @people.last
+      
       
     else
       @people = Person.where(:disqualified => false).order(:last_name)
@@ -69,7 +70,6 @@ class PeopleController < ApplicationController
   # PUT /people/1.json
   def update
     @person = Person.find(params[:id])
-
     respond_to do |format|
       if @person.update_attributes(params[:person])
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
@@ -91,5 +91,22 @@ class PeopleController < ApplicationController
       format.html { redirect_to people_url }
       format.json { head :no_content }
     end
+  end
+
+  def disqualify
+    @people = Person.last
+  end
+  
+  def edit_multiple
+    @people = Person.find(params[:person_ids])
+  end
+
+  def update_multiple
+    @people = Person.find(params[:person_ids])
+    @people.each do |person|
+      person.update_attributes!(params[:person].reject { |k,v| v.blank? })
+    end
+    flash[:notice] = "Updated people!"
+    redirect_to people_path
   end
 end

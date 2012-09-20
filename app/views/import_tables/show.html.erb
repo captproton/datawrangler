@@ -62,45 +62,49 @@
   <%= f.submit "Merge", :disable_with => 'Merging...' %>
 <% end -%>
 <script>
-function mergeTableSelected() {
-  var o = $('select#merge_table option:selected');
-	var acSource = new Array();
-  $('th select option').remove();
-  $('th select').each(function(i, select) {	
-    select.options.add(new Option());
-    $.each(gon.columns, function(j, column) {
-      if (o.text() == column[0]) {
-        select.options.add(new Option(column[1]));
-		  acSource.push(column[1]);
-      }
-    });
-  });
-	acSourceValues = ""
-	$.each(acSource, function(i, acValue){
-		acSourceValues =  acSourceValues + acValue + ", "
-	});
+	var columns = new Array();
+	if (gon.columns) {
+		columns = gon.columns
+	};
+	function mergeTableSelected() {
+	  var o = $('select#merge_table option:selected');
+		var acSource = new Array();
+	  $('th select option').remove();
+	  $('th select').each(function(i, select) {	
+	    select.options.add(new Option());
+	    $.each(gon.columns, function(j, column) {
+	      if (o.text() == column[0]) {
+	        select.options.add(new Option(column[1]));
+			  acSource.push(column[1]);
+	      }
+	    });
+	  });
+		acSourceValues = ""
+		$.each(acSource, function(i, acValue){
+			acSourceValues =  acSourceValues + acValue + ", "
+		});
 
-	alert(o.text() + ": " + acSourceValues);
-}
+		alert(o.text() + ": " + acSourceValues);
+	}
 
-var lead_attributes = [
-  'first_name',
-  'last_name',
-	'job_title',
-	'company_name',
-	'address',
-	'address2',
-	'state',
-	'country',
-	'phone_number',
-	'postal_code',
-	'email_address',
-	'lead_status',
-	'response_type',
-	'lead_source',
-	'lead_score',
-	'industry'
-];
+	var lead_attributes = [
+	  'first_name',
+	  'last_name',
+		'job_title',
+		'company_name',
+		'address',
+		'address2',
+		'state',
+		'country',
+		'phone_number',
+		'postal_code',
+		'email_address',
+		'lead_status',
+		'response_type',
+		'lead_source',
+		'lead_score',
+		'industry'
+	];
 	
 </script>
 
