@@ -1,0 +1,16 @@
+<%= form_for :person, :url => update_multiple_people_path, :html => { :method => :put } do |f| %>
+  <ul>
+    <% for person in @people %>
+      <li>
+        <%= hidden_field_tag "person_ids[]", person.id %>
+		<%= person.id %>
+        <%=h person.first_name %>
+      </li>
+    <% end %>
+  </ul>
+  <p>
+    <%= f.label "Disqualify?" %>&nbsp;&nbsp;
+    <%= f.select :disqualified, [["Yes", true], ["No", false]], :include_blank => true %>
+  </p>
+  <p><%= f.submit "Submit" %></p>
+<% end %>

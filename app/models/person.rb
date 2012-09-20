@@ -1,5 +1,5 @@
 class Person < ActiveRecord::Base
-  attr_accessible :first_name, :last_name
+  attr_accessible :first_name, :last_name, :disqualified
   belongs_to :import_table  
 
   def self.to_csv(options = {})

@@ -36,3 +36,6 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+# To use gon and combine js with ruby
+gem "gon", "~> 4.0.0"
