@@ -13,11 +13,14 @@ class ImportTablesController < ApplicationController
   # GET /import_tables/1
   # GET /import_tables/1.json
   def show
+    gon.columns = get_table_and_column_names
+    
+    @tables = ActiveRecord::Base.connection.tables.select { |t| t != 'schema_migrations' }
     @import_table = ImportTable.find(params[:id])
     @import_cells = @import_table.import_cells
     @row_index_max = @import_cells.map { |cell| cell.row_index }.max
     @column_index_max = @import_cells.map { |cell| cell.column_index }.max
-    @tables = ActiveRecord::Base.connection.tables.select { |t| t != 'schema_migrations' }
+    @columns = []
 
     respond_to do |format|
       format.html # show.html.erb
@@ -129,9 +132,24 @@ class ImportTablesController < ApplicationController
         contents = row.select { |cell| cell.column_index == column_index }[0].contents
         instance[column_name] = contents
       end
+    # attach the id of the import table to instance so that attributes and
+    # tracking can be easily added.
       instance.import_table_id = import_table.id
       instance.save
     end
     eval "redirect_to import_table_#{merge_table}_path(#{import_table.id})"
+  end
+  
+  protected
+  
+  def get_table_and_column_names
+    @tables = ActiveRecord::Base.connection.tables.select { |t| t != 'schema_migrations' }
+    @columns = []
+    for table in @tables
+      for @column in ActiveRecord::Base.const_get(ActiveRecord::Base.class_name(table)).columns
+        @columns.push(Array.[](table, @column.name))
+      end
+    end
+    return @columns
   end
 end
