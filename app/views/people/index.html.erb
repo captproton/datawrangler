@@ -1,5 +1,52 @@
+<!--  -->
+<div class="yui3-u-1-5" id="nav">
+    <div class="content">
+        <ul>
+            <li>
+				<% if params[:import_table_id] %>
+						  <%= search_form_for @search, url: search_import_table_people_path, method: :post do |f| %>
+							  <div class="field">
+								  <%= f.label :job_title_eq %><br />
+								  <%= f.text_field :job_title_eq, :value => "Student", :size => 10 %><br />
+								  <%= hidden_field_tag "import_table_id", params[:import_table_id] %>				
+							  </div>
+						  <div class="actions"><%= f.submit "Find Students" %></div>
+						<% end %>
+					
+				<% else %>
+					  <%= search_form_for @search, url: search_people_path, method: :post do |f| %>
+						  <div class="field">
+							  <%= f.label :job_title_eq %>
+							  <%= f.text_field :job_title_eq, :value => "Student", :size => 10 %>
+		
+						  </div>
+			  
+					  <div class="actions"><%= f.submit "Find Students" %></div>
+					<% end %>
+					
+				<% end %>
+
+			</li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="yui3-u-4-5" id="main">
+    <div class="content">
+
+<!--  -->
 <h1>Listing people</h1>
-<div id="scrolling_table" style="width:500px;height:800px;overflow:scroll;">
+<%= link_to 'Advanced mode', advanced_search_people_path %>
+
 	<% if params[:import_table_id] %>
 		<%= search_form_for @search, url: search_import_table_people_path, method: :post do |f| %>
 		  <%= f.condition_fields do |c| %>
@@ -34,6 +81,7 @@
 	<% end %>	
 	
 	<%= form_tag edit_multiple_people_path do %>
+	<div id="scrolling_table" style="width:775px;height:800px;overflow:scroll;">
 	
 	<table id="people">
 	  <tr>
@@ -44,9 +92,8 @@
 	    <th>last_name</th>
 	    <th>company_name</th>
 	    <th>job_title</th>
-	    <th></th>
-	    <th></th>
-	    <th></th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
 	  </tr>
 
 		<% @people.each do |person| %>
@@ -56,7 +103,6 @@
 		    <td><%=h person.response_type %></td>
 		    <td><%=h person.first_name %></td>
 		    <td><%=h person.last_name %></td>
-		    <td><%=h person.job_title %></td>
 		    <td><%=h person.company_name %></td>
 		    <td><%=h person.job_title %></td>
 		    <td><%= link_to 'Edit', edit_person_path(person) %></td>
@@ -74,3 +120,10 @@
 <br />
 
 <%= link_to 'New Person', new_person_path %>
+
+<!--  -->
+
+    </div>
+</div>
+
+<!--  -->

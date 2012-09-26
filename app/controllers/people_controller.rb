@@ -1,6 +1,7 @@
 class PeopleController < ApplicationController
 ## This controller should be nested within import_tables
 
+  respond_to :html, :xml, :json
   # GET /people
   # GET /people.json
   def index
@@ -14,15 +15,13 @@ class PeopleController < ApplicationController
     else
       # @search = Person.where(:disqualified => false).search(params[:q]).order(:last_name)
       @search = Person.search(params[:q])
-      @people = @search.result
+      @people = params[:distinct].to_i.zero? ? @search.result : @search.result(distinct: true)
       @search.build_condition
       
+      
     end
-
-    respond_to do |format|
-      format.html
+    respond_with(@people) do |format|
       format.csv { send_data @people.to_csv }
-      format.xls # { send_data @products.to_csv(col_sep: "\t") }
     end
   end
 
@@ -31,10 +30,8 @@ class PeopleController < ApplicationController
   def show
     @person = Person.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @person }
-    end
+    respond_with(@person)
+
   end
 
   # GET /people/new
@@ -42,10 +39,7 @@ class PeopleController < ApplicationController
   def new
     @person = Person.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @person }
-    end
+    respond_with(@person)
   end
 
   # GET /people/1/edit
@@ -97,7 +91,12 @@ class PeopleController < ApplicationController
   end
 
   def disqualify
-    @people = Person.last
+    @people = Person.find(params[:person_ids])
+    @people.each do |person|
+      person.update_attributes!(params[:person].reject { |k,v| v.blank? })
+    end
+    flash[:notice] = "Updated people!"
+    redirect_to people_path
   end
   
   def edit_multiple
@@ -112,4 +111,13 @@ class PeopleController < ApplicationController
     flash[:notice] = "Updated people!"
     redirect_to people_path
   end
+  
+  def advanced_search
+    @search = Person.search(params[:q])
+    @search.build_grouping unless @search.groupings.any?
+    @people  = params[:distinct].to_i.zero? ? @search.result : @search.result(distinct: true)
+
+    respond_with @people
+  end
+  
 end
