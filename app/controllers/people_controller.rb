@@ -1,6 +1,7 @@
 class PeopleController < ApplicationController
 ## This controller should be nested within import_tables
-
+  include RansackHelpers
+  
   respond_to :html, :xml, :json
   # GET /people
   # GET /people.json
@@ -11,17 +12,18 @@ class PeopleController < ApplicationController
       # @search = @table.people.where(:disqualified => false).order(:last_name)
       @search = @table.people.search(params[:q])
       @people = @search.result
-      @search.build_condition
     else
       # @search = Person.where(:disqualified => false).search(params[:q]).order(:last_name)
       @search = Person.search(params[:q])
       @people = params[:distinct].to_i.zero? ? @search.result : @search.result(distinct: true)
-      @search.build_condition
-      
       
     end
-    respond_with(@people) do |format|
-      format.csv { send_data @people.to_csv }
+    
+    @search.build_condition
+    
+    respond_to do|format|
+      format.html # index.html.erb
+      format.csv { send_data RansackHelpers.to_csv(@search) }
     end
   end
 
@@ -109,7 +111,11 @@ class PeopleController < ApplicationController
       person.update_attributes!(params[:person].reject { |k,v| v.blank? })
     end
     flash[:notice] = "Updated people!"
-    redirect_to people_path
+    if !params[:import_table_id].blank?
+      redirect_to import_table_people_path(params[:import_table_id])
+    else
+      redirect_to people_path
+    end
   end
   
   def advanced_search

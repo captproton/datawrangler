@@ -6,8 +6,10 @@
 				<% if params[:import_table_id] %>
 						  <%= search_form_for @search, url: search_import_table_people_path, method: :post do |f| %>
 							  <div class="field">
-								  <%= f.label :job_title_eq %><br />
-								  <%= f.text_field :job_title_eq, :value => "Student", :size => 10 %><br />
+								  <%= render :partial => 'disqualified_student_form_fields', 
+								  	:locals => { :f => f } 
+								  %>
+								
 								  <%= hidden_field_tag "import_table_id", params[:import_table_id] %>				
 							  </div>
 						  <div class="actions"><%= f.submit "Find Students" %></div>
@@ -16,8 +18,9 @@
 				<% else %>
 					  <%= search_form_for @search, url: search_people_path, method: :post do |f| %>
 						  <div class="field">
-							  <%= f.label :job_title_eq %>
-							  <%= f.text_field :job_title_eq, :value => "Student", :size => 10 %>
+								  <%= render :partial => 'disqualified_student_form_fields', 
+								  	:locals => { :f => f } 
+								  %>
 		
 						  </div>
 			  
@@ -27,7 +30,30 @@
 				<% end %>
 
 			</li>
-            <li><a href="#">lorem ipsum dolor</a></li>
+            <li>
+				<% if params[:import_table_id] %>
+						  <%= search_form_for @search, url: search_import_table_people_path(:format => :csv), method: :post do |f| %>
+							  <div class="field">
+								<%= f.hidden_field :disqualified_not_eq, :value => true %>
+								  <%= hidden_field_tag "import_table_id", params[:import_table_id] %>				
+							  </div>
+						  	  <div class="actions"><%= f.submit "Download qualified people" %></div>
+						<% end %>
+					
+				<% else %>
+					  <%= search_form_for @search, url: search_people_path, method: :post do |f| %>
+						  <div class="field">
+								<%= f.check_box(:disqualified_not_eq, :checked => "checked") %>
+								<%= f.label :disqualified_not_eq, "Hide Disqualified" %>
+		
+						  </div>
+			  
+					  <div class="actions"><%= f.submit "Find Students" %></div>
+					<% end %>
+					
+				<% end %>
+				
+			</li>
             <li><a href="#">lorem ipsum dolor</a></li>
             <li><a href="#">lorem ipsum dolor</a></li>
             <li><a href="#">lorem ipsum dolor</a></li>
@@ -59,7 +85,8 @@
 		      <%= s.sort_select %>
 		    <% end %>
 		  </div>
-		  <div class="actions"><%= f.submit "Search" %></div>
+		  <div class="actions"><%= f.submit "Search" %> | 
+		  </div>
 		<% end %>
 
 	<% else %>
@@ -74,14 +101,38 @@
 	      <%= s.sort_select %>
 	    <% end %>
 	  </div>
-	  <div class="actions"><%= f.submit "Search" %></div>
+	  <div class="actions"><%= f.submit "Search" %>
+	</div>
 	<% end %>
 	
 	
 	<% end %>	
+	<%= button_to 'Export to CSV', search_import_table_people_path(:format => :csv) %> 
+	<hr />
+	  <%= search_form_for @search, url: search_import_table_people_path(:format => :csv), method: :post do |f| %>
+		  <%= f.check_box(:disqualified_not_eq, :checked => "checked") %>
+		  <%= f.label :disqualified_not_eq, "Hide Disqualified" %>
+		  				
+		
+		<%= submit_tag "Download Qualified People" %>
+  	  <% end %>
+<hr />
+	
+			<%= link_to params[:import_table_id], import_table_path(@people) %> | 
+			<% if !@search_vars.blank? %>
+				  <% for var in @search_vars %>
+				    	<%= var %> | 
+				  <% end %>
+			<% else %>
+			   	  no vars
+			<% end %>
+
+	<%= params[:import_table_id] %> 
 	
 	<%= form_tag edit_multiple_people_path do %>
-	<div id="scrolling_table" style="width:775px;height:800px;overflow:scroll;">
+	  <%= hidden_field_tag "import_table_id", params[:import_table_id] %>				
+		
+	<div id="scrolling_table" style="width:775px;height:300px;overflow:scroll;">
 	
 	<table id="people">
 	  <tr>
@@ -111,11 +162,12 @@
 		  </tr>
 		<% end %>
 	</table>
+	</div>
+	
 		<%= submit_tag "Edit Checked" %>
 		
 	    
 	<% end %>
-</div>
 
 <br />
 
