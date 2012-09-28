@@ -3,6 +3,7 @@ Store::Application.routes.draw do
   resources :import_tables do
     resources :people do
       collection { post :search, to: 'people#index' }
+      collection { post :edit_multiple }
     end
   end
   post 'import_tables/:id' => 'import_tables#merge'
@@ -20,9 +21,14 @@ Store::Application.routes.draw do
       post  :edit_multiple
       put   :update_multiple
       post :search, to: 'people#index' 
-    end
-    
+    end    
   end
+  
+  resources :people, only: :index do
+    match 'advanced_search' => 'people#advanced_search',
+          on: :collection, via: [:get, :post], as: :advanced_search
+  end
+  
 
   resources :products
   root to: 'csv#import'

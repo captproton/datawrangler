@@ -1,4 +1,29 @@
+<!--  -->
+<div class="yui3-u-1-5" id="nav">
+    <div class="content">
+        <ul>
+
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+            <li><a href="#">lorem ipsum dolor</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="yui3-u-4-5" id="main">
+    <div class="content">
+
+<!--  -->
+
 <%= form_for :person, :url => update_multiple_people_path, :html => { :method => :put } do |f| %>
+  <%= hidden_field_tag "import_table_id", params[:import_table_id] %>				
+	
   <ul>
     <% for person in @people %>
       <li>
@@ -14,3 +39,9 @@
   </p>
   <p><%= f.submit "Submit" %></p>
 <% end %>
+<!--  -->
+
+    </div>
+</div>
+
+<!--  -->

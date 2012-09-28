@@ -1,70 +1,274 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+	<!-- from  -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
 	  <title>Data Wrangler</title>
 	  <%= include_gon %>
-	  <%# stylesheet_link_tag    "application", :media => "all" %>
 	  <%= javascript_include_tag "application" %>
-	  <script src="http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js"></script>
+	
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.7.2/build/cssreset/cssreset.css" type="text/css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.7.2/build/cssfonts/cssfonts.css" type="text/css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.7.2/build/cssgrids/cssgrids.css" type="text/css">
+    <script src="http://yui.yahooapis.com/3.7.2/build/yui/yui-min.js"></script>
 	  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 
-	  <%= csrf_meta_tags %>
-  	<!-- YUI module loading -->
-	<script>
-	// Create a new YUI instance and populate it with the required modules.
-	YUI().use('autocomplete', function (Y) {
-	    // AutoComplete is available and ready for use. Add implementation
-	    // code here.
-	});
-	</script>
-	
-	<!-- YUI style -->
-	<link rel="stylesheet" href="http://yui.yahooapis.com/3.5.1/build/cssgrids/cssgrids-min.css">
-    <style>
-		body { margin: auto; width: 960px; }
-		p    { margin: 0px; border: 1px solid #000; }
-	</style>
-	
+<!-- app customization -->
+  <%= csrf_meta_tags %>
+<!-- YUI module loading -->
+<script>
+// Create a new YUI instance and populate it with the required modules.
+YUI().use('autocomplete', function (Y) {
+    // AutoComplete is available and ready for use. Add implementation
+    // code here.
+});
+</script>
+
+<!-- YUI style -->
+<link rel="stylesheet" href="http://yui.yahooapis.com/3.5.1/build/cssgrids/cssgrids-min.css">
+<style>
+	body { margin: auto; width: 974px; }
+	p    { margin: 0px; border: 1px solid #000; }
+	td    { margin: 2px; border: 1px solid #000;padding: 0.5em; }
+	th    { margin: 2px; border: 1px solid #000;padding: 0.5em; }
+</style>
+
+
+<style>
+/* everything below is custom styling to demonstrate how to create a page layout using yui grid units */
+
+/* Fixed, Centered Layout */
+
+#doc {
+    margin:auto; /* center in viewport */
+    width: 984px; /* fix page width */
+    background:#efefef;
+}
+
+#main .content {
+    margin-right: 10px; /* gutter between center and right columns */
+}
+
+.thumb-captions .yui3-u-1-3 {
+    vertical-align: bottom;
+}
+
+#main .yui3-u-4-5,
+#more .yui3-u-1-4 {
+    vertical-align: middle;
+}
+
+.advertisement .yui3-g,
+#more {
+    text-align: center; /* horizontally center content */
+}
+
+#more ul {
+    text-align: left; /* reset for content */
+}
+
+.advertisement .align-stub { /* empty stub used to fix the parent height and vertically align */
+    height: 200px;
+}
+
+.advertisement .yui3-u-1-2,
+.advertisement .align-stub {
+    vertical-align: middle; /* vertically center content */
+}
+
+/* content presentation (completely arbitrary, remove or customize) */
+
+#hd, .content, #more {
+    border: 1px solid #000;
+}
+
+#hd h1 {
+    font: bold 180% arial;
+    padding: 1em;
+}
+
+.content {
+    border-top: 0;
+}
+
+.content p, .content li, #nav li a {
+    padding: 0.5em 1em;
+}
+
+#nav li a, #extra li a, #more li a {
+    display: block;
+    padding: 0.25em 0;
+}
+
+#nav li a {
+    border: 1px dashed black;
+    padding: 0.5em 1em;
+}
+
+/*--*/
+.content p, .content li, #nav li form {
+    padding: 0.5em 1em;
+}
+
+#nav li form, #extra li form, #more li form {
+    display: block;
+    padding: 0.25em 0;
+}
+
+#nav li form {
+    border: 1px dashed black;
+    padding: 0.5em 1em;
+}
+/*--*/
+
+#nav .content {
+    border-right: 0;
+}
+
+#main .thumb-captions {
+    text-align: center;
+}
+
+#main .thumb-captions a {
+    background: #ddd;
+    border: 1px solid #000;
+    display: block;
+    padding: 5px;
+    margin: 0 5px;
+}
+
+#main .thumb-captions img {
+    border: 1px solid #000;
+    margin: 0.5em auto;
+    display: block;
+}
+
+
+#top-stories {
+    background: #dcdcdc;
+    border-bottom: 1px solid #000;
+    margin-bottom: 1em;
+}
+
+#top-stories ol {
+    background: #dcdcdc;
+    margin: 0 0 0 3.5em;
+}
+
+#top-stories li {
+    list-style-type: decimal;
+}
+
+#top-stories li a {
+    margin-left: -1em; /* collapse some space between list marker and content */
+}
+
+#extra .advertisement {
+    background: #666;
+    color: #fff;
+}
+
+#more {
+    background: #ccc;
+    margin-top: 1em;
+}
+
+#more ul {
+    padding: 0.5em 0;
+}
+
+#more li {
+    list-style-type: disc;
+    margin: 0 0 0 2.5em;
+}
+
+#more li a {
+    font:83% tahoma;
+}
+
+#ft {
+    background: #999;
+    font:80% verdana;
+    padding: 1em;
+    text-align: center;
+}
+</style>
+
 </head>
-<body class="yui3-skin-sam">
-	
-	<div class="yui3-g">
-	    <div class="yui3-u-1-4">
+<body id="doc">
+    <div id="hd">
+        <h1>Data Wrangler</h1>
+    </div>
 
-			
-			<p>1/4</p>
-			</div>
-	    <div class="yui3-u-1-2">
-			<%= yield %>
-		    </div>
-		    <div class="yui3-u-1-4"><p>1/4</p></div>
-		</div>
-		<div class="yui3-g">
-		    <div class="yui3-u"></div>
-		    <div class="yui3-u-5-6">
-			<!--  -->
-			<div id="footer_sub">
-			<div id="debugging">
-			&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    <div class="yui3-g">
+				<%= yield %>
 
-			<form style="margin: 0px" action="" method="post">
-			<div id="footer_sub_inner">
-			© 2012 Carl Tanner. <a href="/tos/">Terms of use</a> | 
-			<a href="/company/jobs/">Careers</a> | 
-			<a href="https://support.windriver.com/selfservicewebapp/editProfile.action">My Account</a> | 
-			<a href="/company/feedback.html">Feedback</a> | 
-			<a href="/company/site-map.html">Site Map</a> | 
-			<a href="/company/contact/index.html">Contact Us</a>
+    </div>
 
-			</div>
-			</form>
-			</div>
-			<!--  -->
-			</div>
-		    <div class="yui3-u"></div>
-		</div>
-		<script>
-			
-		</script>
+
+    <div id="more">
+        <div class="yui3-g">
+            <ul class="yui3-u-1-4">
+                <li><a href="#">lorem</a></li>
+                <li><a href="#">ipsum</a></li>
+                <li><a href="#">dolor</a></li>
+            </ul>
+
+            <ul class="yui3-u-1-4">
+                <li><a href="#">lorem</a></li>
+                <li><a href="#">ipsum</a></li>
+                <li><a href="#">dolor</a></li>
+            </ul>
+
+            <ul class="yui3-u-1-4">
+                <li><a href="#">lorem</a></li>
+                <li><a href="#">ipsum</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="ft">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed arcu arcu, volutpat vel volutpat vel, varius ac odio.</p>
+    </div>
 </body>
 </html>
+
+
+
+
+
+    <script>
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29453705-2']);
+    _gaq.push(['_trackPageview']);
+    </script>
+
+
+
+
+    <script>
+    (function() {
+        var ga = document.createElement('script'); ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    }());
+
+    (function() {
+        var ya = document.createElement('script'); ya.async = true;
+        ya.src = ('https:' == document.location.protocol ? 'https://s' : 'http://d') + '.yimg.com/mi/ywa.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ya, s);
+
+        window.onload = function () {
+            try {
+                var YWATracker = YWA.getTracker("10001393677061", "US");
+                YWATracker.submit();
+            } catch (eYWATCUnavailable) {
+                if (window.console && window.console.warn) {
+                    window.console.warn(eYWATCUnavailable.message || "Unknown error");
+                }
+            }
+        };
+    }());
+    </script>
+
+

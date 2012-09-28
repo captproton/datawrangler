@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120917212646) do
+ActiveRecord::Schema.define(:version => 20120927171126) do
 
   create_table "import_cells", :force => true do |t|
     t.integer  "import_table_id"
@@ -48,6 +48,9 @@ ActiveRecord::Schema.define(:version => 20120917212646) do
     t.integer  "import_table_id"
     t.boolean  "disqualified",    :default => false
   end
+
+  add_index "people", ["disqualified"], :name => "index_people_on_disqualified"
+  add_index "people", ["import_table_id"], :name => "index_people_on_import_table_id"
 
   create_table "places", :force => true do |t|
     t.string   "address"
